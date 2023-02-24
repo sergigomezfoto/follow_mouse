@@ -86,13 +86,13 @@
         .clock_stick {
             background-color: #CCC;
             width: 10px;
-            height: 280px;
+            height: 100px;
             /* position: relative; */
         }
 
         .clock_ball {
             position: relative;
-            bottom: -270px;
+            bottom: -100px;
             left: -15px;
             width: 40px;
             height: 40px;
@@ -101,7 +101,6 @@
         }
 
         .excluded {
-            content: 'EXCLUDED';
             background-color: aqua;
             width: 100px;
             height: 100px;
@@ -126,7 +125,7 @@
         </div>
         <div class="div_clock">
             <div class="clock_stick">
-                <div class="clock_ball"></div>
+                <!-- <div class="clock_ball"></div> -->
             </div>
         </div>
     </main>
@@ -135,31 +134,32 @@
     <script src="s_follow.js"></script>
     <script>
 
-        // let eyes = new S_turn('follow_element', {
-        //     followOnHoveringElement: 'body',
-        //     elementXOffset: 0,
-        //     elementYOffset: 8,
-        //     squinting: 0,
-        //     excludeFollowElementClass: ['excluded', 'eyeball_div_style follow_element'],
-        //     returnWhenHoveringExcluded: {
-        //         on: true,
-        //         includeRotation: false,
-        //         transitionTime: 0.2,
-        //     },
-        // });
-        let clock = new S_turn('clock_stick', {
+        let eyes = new S_turn('follow_element', {
             followOnHoveringElement: 'body',
-            elementXOffset: 0,
-            elementYOffset: -140,
+            elementXOffset: 10,
+            elementYOffset: 0,
             squinting: 0,
-            excludeFollowElementClass: ['excluded', 'eyeball_div_style follow_element'],
+            excludeFollowElementClass: ['excluded', 'eyes_container'],
             returnWhenHoveringExcluded: {
-                on: false,
-                includeRotation: true,
+                on: true,
+                includeRotation: false,
                 transitionTime: 0.2,
             },
         });
-
+        let clock = new S_turn('clock_stick', {
+            followOnHoveringElement: 'body',
+            elementXOffset: 0,
+            elementYOffset: -50,
+            squinting: 0,
+            excludeFollowElementClass: ['excluded','div_clock'],
+            returnWhenHoveringExcluded: {
+                on: true,
+                includeRotation: true,
+                transitionTime: 0.5,
+            },
+        });
+         
+    
     </script>
 </body>
 
