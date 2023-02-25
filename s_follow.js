@@ -1,124 +1,159 @@
 class S_turn {
   id;
-  squinting = 0;
+  gDeviation = 0;
+  yDeviation=0;
+  xDeviation=0;
+  gMulFactor = 1;
+
+  yOffset= 0
+  xOffset= 0
+  excludeWithS_fex= []
   followOnHoveringElement = "body";
   returnWhenHoveringExcluded = {
     on: false,
     includeRotation: false,
-    transitionTime: 0.2,
+    includeOrigin: true,
+    transitionTime: 0,
   };
-  excludeFollowElementClass; /// TODO, crec que aquest és això.
-
-  #xO = 0;
-  #yO = 0;
-  // #cursorOut = false;
-  #eHoveringClassName = "";
+  // xOffset = 0;
+  // yOffset = 0;
+  #eHoverings_fex = "";
   //pròpies a for each
-  //this[this.id + "cursorOut" + i]
-  //this[this.id + "excluded" + i]
-  //this[this.id + "CenterY_var" + i]
-  //this[this.id + "CenterX_var" + i]
-
+  //this[this.id + "elements_excluded" + i] // boolean //default: false
+  //this[this.id + "excluded" + i] // array of classes // default []
+  //this[this.id + "cursorOut" + i] boolean // definit a fals
+  //this[this.id + "CenterY_var" + i] number
+  //this[this.id + "CenterX_var" + i] number
+  // this[this.id + "CenterX_var_Comp" + i] =0;
+  // this[this.id + "CenterY_var_Comp" + i] =0;
+  //this[this.id + "abortController"] new AbortControler // controla els events i els pot abortar per sempre amb stop.
+  //this[this.id + "runningController"] boolean // controla els events i els pot pausar i remprendre  amb pause,resume.
   constructor(id, options = null) {
     if (id.length < 1) {
-      throw new Error("class is mandatory!");
+      throw new Error("Selector is mandatory!");
     }
     this.id = id;
-    let element = document.querySelectorAll("." + this.id);
+    let element = document.querySelectorAll(this.id);
     ///////////////////////////OPTIONS
     if (options) {
-      options.elementXOffset && (this.#xO = options.elementXOffset);
-      options.elementYOffset && (this.#yO = options.elementYOffset);
-      options.squinting && (this.squinting = options.squinting);
+      options.xOffset && (this.xOffset = options.xOffset);
+      options.yOffset && (this.yOffset = options.yOffset);
+      options.yDeviation && (this.yDeviation = options.yDeviation);
+      options.xDeviation && (this.xDeviation = options.xDeviation);
+      options.gDeviation && (this.gDeviation = options.gDeviation);
+      options.gMulFactor && (this.gMulFactor = options.gMulFactor);
       options.followOnHoveringElement && (this.followOnHoveringElement = options.followOnHoveringElement);
-      options.returnWhenHoveringExcluded && (this.returnWhenOut = options.returnWhenHoveringExcluded);
-      options.excludeFollowElementClass &&
-        element.forEach((e, i) => {
-          this[this.id + "excluded" + i] = options.excludeFollowElementClass
-          this[this.id + "cursorOut" + i];
-
-        });
+      options.returnWhenHoveringExcluded && (this.returnWhenHoveringExcluded = options.returnWhenHoveringExcluded);
     }
-
     element.forEach((e, i) => {
+      this[this.id + "CenterX_var_Comp" + i] =0;
+      this[this.id + "CenterY_var_Comp" + i] =0;
+      if (options) {
+       if(options.xOffsetCompensation) this[this.id + "CenterX_var_Comp" + i] = options.xOffsetCompensation;
+       if(options.yOffsetCompensation) this[this.id + "CenterY_var_Comp" + i] = options.yOffsetCompensation;
+        this[this.id + "elements_excluded" + i] = false;
+        this[this.id + "excluded" + i] = [];
+        if (options.excludeWithS_fex) {
+          this[this.id + "excluded" + i] = options.excludeWithS_fex;
+          this[this.id + "elements_excluded" + i] = true;
+          this[this.id + "cursorOut" + i];
+        }
+      }
       this.#position(e, i);
     });
-    this.rotateStart = (e) => this.#followStart(e);
-    this.eventListenerFunction = this.rotateStart.bind(this);
 
-    document.querySelector(this.followOnHoveringElement).addEventListener("mousemove", this.eventListenerFunction, true);
+    this.rotateStart = (ev) => this.#followStart(ev);
+    this.eventListenerFunction = this.rotateStart.bind(this);
+    this[this.id + "abortController"] = new AbortController();
+    this[this.id + "runningController"] = true;
+    document
+      .querySelector(this.followOnHoveringElement)
+      .addEventListener("mousemove", this.eventListenerFunction, { signal: this[this.id + "abortController"].signal });
+    document
+      .querySelector(this.followOnHoveringElement)
+      .addEventListener("touchmove", this.eventListenerFunction, { signal: this[this.id + "abortController"].signal });
   }
 
   #position = (e, i) => {
-    let xOffset = this.#xO === 0 ? "50%" : e.clientWidth / 2 + this.#xO;
-    let xUnit = this.#xO === 0 ? "" : "px";
-    let yOffset = this.#yO === 0 ? "50%" : e.clientHeight / 2 + this.#yO;
-    let yUnit = this.#yO === 0 ? "" : "px";
+    let xOffset = this.xOffset === 0 ? "50%" : e.clientWidth / 2 + this.xOffset;
+    let xUnit = this.xOffset === 0 ? "" : "px";
+    let yOffset = this.yOffset === 0 ? "50%" : e.clientHeight / 2 + this.yOffset;
+    let yUnit = this.yOffset === 0 ? "" : "px";
     let trOr = xOffset + xUnit + " " + yOffset + yUnit;
     e.style.transformOrigin = trOr;
-    if (this.#yO != 0) e.style.top = this.#yO * -1 + "px";
-    if (this.#xO != 0) e.style.left = this.#xO * -1 + "px";
+    if (this.yOffset != 0) e.style.top = this.yOffset * -1 + "px";
+    if (this.xOffset != 0) e.style.left = this.xOffset * -1 + "px";
     this[this.id + "CenterY_var" + i] = Math.round(e.getBoundingClientRect().top + e.clientHeight / 2);
     this[this.id + "CenterX_var" + i] = Math.round(e.getBoundingClientRect().left + e.clientWidth / 2);
+
   };
 
-
   #followStart(ev) {
-
-    let element = document.querySelectorAll(`.${this.id}`);
-    if (this.excludeFollowElementClass) {
-      // console.log(this.id + " -> " + this.excludeFollowElementClass);
-      // si hi ha excludes
-    }
-    this.#eHoveringClassName = ev.target.className;
-    //console.log(this.#eHoveringClassName);
+    //console.log(ev.target.attributes.s_fex.value);
+    let element = document.querySelectorAll(this.id);
+    this.#eHoverings_fex = ev.target.attributes.s_fex?.value; // '?' hi ha s_flex? si no no ho pillis
     element.forEach((e, i) => {
-      if (this[this.id + "excluded" + i].some((e) => e === this.#eHoveringClassName)) {
-        // si el cursor pasa per un exclude
-        this[this.id + "cursorOut" + i] = true;
-        console.log('estic exclos');
-      } else {
-        this[this.id + "cursorOut" + i] = false;
-        console.log('no estic exclos');
-      }
-      console.log(this[this.id + "excluded" + i]);
-      if (typeof this[this.id + i] === "undefined") {
-        this[this.id + i] = false;
-      }
-
-      if (!this[this.id + "cursorOut" + i] || !this.excludeFollowElementClass) {
-        let ySum = this.#yO === 0 ? 0 : this.#yO > 0 ? 180 : 0;
-        let xSum = this.#xO === 0 ? 0 : this.#xO > 0 ? 270 : 90;
-        let rad = Math.atan2(ev.clientX - this[this.id + "CenterX_var" + i], ev.clientY - this[this.id + "CenterY_var" + i]);
-        let rotation = rad * (180 / Math.PI) * -1 + (this.#yO === 0 ? xSum : ySum) + this.squinting;
-        e.style.transform = "rotate(" + rotation + "deg)";
-      }
-      if (this.returnWhenOut.on) {
-        // si la opció returnWhenOut està activat
-        if (this[this.id + "cursorOut" + i] & !this[this.id + i]) {
-          //si el custor entra en un exclude
-          //   console.log("el cursor entra a un exclude");
-          e.style.transitionProperty = "transform,transform-origin,top,left";
-          e.style.transitionDuration = this.returnWhenOut.transitionTime + "s";
-          if (this.returnWhenOut.includeRotation) e.style.transform = "rotate(0deg)"; // si inclou el rotate
-          e.style.transformOrigin = "50% 50%";
-          e.style.top = "0";
-          e.style.left = "0";
-          this[this.id + i] = true;
+      if (this[this.id + "runningController"]) {
+        if (this[this.id + "excluded" + i]?.some((e) => e === this.#eHoverings_fex)) {
+          // si el cursor pasa per un exclude
+          this[this.id + "cursorOut" + i] = true;
+        } else {
+          this[this.id + "cursorOut" + i] = false;
         }
-        if (!this[this.id + "cursorOut" + i] & this[this.id + i]) {
-          //   console.log("el cursor surt d un exclude");
-          this[this.id + i] = false;
-          this.#position(e);
-          setTimeout(() => {
-            e.style.transitionDuration = "0s";
-          }, this.returnWhenOut.transitionTime + 100);
+        if (typeof this[this.id + "doItOnce" + i] === "undefined") {
+          this[this.id + "doItOnce" + i] = false;
+        }
+        if (!this[this.id + "cursorOut" + i] || !this[this.id + "elements_excluded" + i]) {
+          let ySum = this.yOffset === 0 ? 0 : this.yOffset > 0 ? 180 : 0;
+          let xSum = this.xOffset === 0 ? 0 : this.xOffset > 0 ? 270 : 90;
+          let rad = Math.atan2(ev.clientX - (this[this.id + "CenterX_var" + i] - this[this.id + "CenterX_var_Comp" + i]), ev.clientY - (this[this.id + "CenterY_var" + i] - this[this.id + "CenterY_var_Comp" + i]));
+          let rotation = (((rad * (180 / Math.PI) * -1 + (this.yOffset === 0 ? (xSum)+ this.xDeviation : (ySum) + this.yDeviation )) + this.gDeviation) * this.gMulFactor);
+          e.style.transform = "rotate(" + rotation + "deg)";
+        }
+        if (this.returnWhenHoveringExcluded.on) {
+          // si la opció returnWhenOut està activat
+          if (this[this.id + "cursorOut" + i] & !this[this.id + "doItOnce" + i]) {
+            //si el custor entra en un exclude
+            this[this.id + "doItOnce" + i] = true;
+            e.style.transitionProperty = "transform,transform-origin,top,left";
+            e.style.transitionDuration = this.returnWhenHoveringExcluded.transitionTime + "s";
+            if (this.returnWhenHoveringExcluded.includeRotation) e.style.transform = "rotate(0deg)"; // si inclou el rotate
+            if (this.returnWhenHoveringExcluded.includeOrigin) {
+              e.style.transformOrigin = "50% 50%";
+              e.style.top = "0";
+              e.style.left = "0";
+            }
+          }
+          if (!this[this.id + "cursorOut" + i] & this[this.id + "doItOnce" + i]) {
+            this[this.id + "doItOnce" + i] = false;
+            this.#position(e);
+            setTimeout(() => {
+              e.style.transitionDuration = "0s";
+            }, this.returnWhenHoveringExcluded.transitionTime + 100);
+          }
         }
       }
     });
   }
-
+  pause(ret=false) {
+    console.log(this);
+    // if (ret) {
+    //   e.style.transitionProperty = "transform,transform-origin,top,left";
+    //   e.style.transitionDuration = this.returnWhenHoveringExcluded.transitionTime + "s";
+    //   if (this.returnWhenHoveringExcluded.includeRotation) e.style.transform = "rotate(0deg)"; // si inclou el rotate
+    //   if (this.returnWhenHoveringExcluded.includeOrigin) {
+    //     e.style.transformOrigin = "50% 50%";
+    //     e.style.top = "0";
+    //     e.style.left = "0";
+    //   }
+    // }
+    this[this.id + "runningController"] = false;
+  }
+  resume(ret=false) {
+    this[this.id + "runningController"] = true;
+  }
   stop() {
-    document.querySelector(this.followOnHoveringElement).removeEventListener("mousemove", this.eventListenerFunction);
+    // document.querySelector(this.followOnHoveringElement).removeEventListener("pointermove", this.eventListenerFunction);
+    this[this.id + "abortController"].abort();
   }
 }
