@@ -15,10 +15,9 @@ class S_turn {
     includeOrigin: true,
     transitionTime: 0,
   };
-  hovering_excluded;
-  #po={};
+  #eHoverings_fex;
 
-  //TODO: netejar el id per a que no surtin caracters com # . []...// detect out window i enter window i icluir-lo en exclude
+  //TODO: options action: // detect out window i enter window i icluir-lo en exclude
   //pròpies a for each
   //this[this.id + "elements_excluded" + i] // boolean //default: false
   //this[this.id + "excluded" + i] // array of classes // default []
@@ -37,7 +36,6 @@ class S_turn {
       throw new Error("Selector is mandatory!");
     }
     this.id = id;
-    console.log(this.id);
     ///////////////////////////OPTIONS
     this.#optionsAsignation(options);
     this.rotateStart = (ev) => this.#followStart(ev);
@@ -100,16 +98,21 @@ class S_turn {
 
   #followStart(event) {
     this[this.id + "event"] = event.getCoalescedEvents();
-    this.hovering_excluded = event.target.attributes.s_fex?.value; // '?' hi ha s_flex? si no no ho pillis
+    this.#eHoverings_fex = event.target.attributes.s_fex?.value; // '?' hi ha s_flex? si no no ho pillis
     document.querySelectorAll(this.id).forEach((e, i) => {
-      if (this[this.id + "runningController"]) {
-        this[this.id + "cursorOut" ] = this[this.id + "excluded" + i]?.some((e) => e === this.hovering_excluded) ? true : false;     
+      let eventRunning = this[this.id + "runningController"];
+      if (eventRunning) {
+        this[this.id + "cursorOut" + i] = this[this.id + "excluded" + i]?.some((e) => e === this.#eHoverings_fex) ? true : false;
+        let cursorOutOfInfluence = this[this.id + "cursorOut" + i];
+
         if (typeof this[this.id + "doItOnce" + i] === "undefined") this[this.id + "doItOnce" + i] = false;
-        let followState = !this[this.id + "cursorOut" ] || !this[this.id + "elements_excluded" + i] ? "active" : "inactive";
+
+        let followState = !cursorOutOfInfluence || !this[this.id + "elements_excluded" + i] ? "active" : "inactive";
         if (followState === "active") {
           /// moviment general amb possibilitat de controlar la frequencia del trigger depenent del followDeacceleration.
           if (!this[this.id + "event_count" + i]) {
             this[this.id + "event_count" + i] = 0;
+
           }
           for (let ev of this[this.id + "event"]) {
             this[this.id + "event_count" + i]++;
@@ -129,7 +132,7 @@ class S_turn {
 
         if (this.returnWhenHoveringExcluded.on) {
           // si la opció returnWhenOut està activat
-          if (this[this.id + "cursorOut" ] & !this[this.id + "doItOnce" + i]) {
+          if (cursorOutOfInfluence & !this[this.id + "doItOnce" + i]) {
             !this[this.id + "retWhenHoverTimeout" + i] && this[this.id + "retWhenHoverTimeout" + i];
             clearTimeout(this[this.id + "retWhenHoverTimeout" + i]);
 
@@ -142,7 +145,7 @@ class S_turn {
               e.style.left = "0";
             }
             this[this.id + "doItOnce" + i] = true;
-          } else if (!this[this.id + "cursorOut" ] & this[this.id + "doItOnce" + i]) {
+          } else if (!cursorOutOfInfluence & this[this.id + "doItOnce" + i]) {
             //si el custor surt d' un exclude
             this[this.id + "doItOnce" + i] = false;
             this.#position(e);
@@ -190,7 +193,7 @@ class S_turn {
         e.style.transitionProperty = null;
         e.style.transitionDuration = null;
         this.#position(e);
-        this[this.id + "runningController"]= true; //eventRunning
+        this[this.id + "runningController"] = true; //eventRunning
       }
     });
   }
