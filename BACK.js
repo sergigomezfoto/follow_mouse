@@ -2,7 +2,7 @@ class S_turn {
   id;
   squinting = 0;
   followOnHoveringElement = "body";
-  returnWhenHoveringExcluded = {
+  easyReturn = {
     on: false,
     includeRotation: false,
     transitionTime: 0.2,
@@ -25,7 +25,7 @@ class S_turn {
       options.elementYOffset && (this.#yO = options.elementYOffset);
       options.squinting && (this.squinting = options.squinting);
       options.followOnHoveringElement && (this.followOnHoveringElement = options.followOnHoveringElement);
-      options.returnWhenHoveringExcluded && (this.returnWhenOut = options.returnWhenHoveringExcluded);
+      options.easyReturn && (this.returnWhenOut = options.easyReturn);
       options.excludeFollowElementClass && (this.excludeFollowElementClass = options.excludeFollowElementClass);
     }
     console.log(this.excludeFollowElementClass);

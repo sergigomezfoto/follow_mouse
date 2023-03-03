@@ -1,0 +1,329 @@
+:root {
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+  }
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-image: url('back.jpg');
+    background-position: bottom 0px left 0px;
+    width: 100vw;
+    height: 100vh;
+}
+
+
+header,
+main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: baseline;
+    justify-content: space-evenly;
+    background-color: transparent;
+    gap: 40px;
+    overflow: hidden;
+    position: absolute;
+}
+
+.torch {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: hsla(0,0%,0%, 0.97);
+    mask: radial-gradient(
+        circle at var(--p-x) var(--p-y),
+        transparent 3%,
+        black 15%
+      );
+      -webkit-mask: radial-gradient(
+        circle at var(--p-x) var(--p-y),
+        transparent 3%,
+        black 15%
+      );
+      z-index: 10;
+}
+header {
+    z-index: 5;
+}
+
+span {
+    z-index: 10;
+}
+
+main {
+
+    z-index: 15;
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+header div,
+main div {
+    /*contenidors dels ulls*/
+    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    width: 100px;
+    height: 50px;
+}
+
+header div::before {
+    width: 180%;
+    height: 360%;
+    content: " ";
+    position: absolute;
+    background-image: url(imatge.png);
+    background-size: 100%;
+    left: -40px;
+    top: -16px;
+    z-index: -1;
+}
+header div:first-child::before  {
+    /* width: 180%;
+    height: 360%;
+    content: " ";
+    position: absolute; */
+    background-image: url(m1.png);
+    /* background-size: 100%;
+    z-index: -1; */
+    left: -42px;
+    top: -34px;
+}
+header div:nth-child(2)::before  {
+    background-image: url(m2.png);
+    left: -39px;
+    top: -38px;
+    scale: 1.3;
+}
+header div:nth-child(3)::before  {
+    background-image: url(m3.png);
+    left: -42px;
+    top: -26px;
+    scale: 1.5;
+}
+header div:nth-child(4)::before  {
+    background-image: url(m4.png);
+    left: -41px;
+    top: -47px;
+    scale: 1.2;
+}
+header div:nth-child(5)::before  {
+    background-image: url(m5.png);
+    left: -41px;
+    top: -47px;
+    scale: 1.2;
+}
+header div:nth-child(6)::before  {
+    background-image: url(m6.png);
+    left: -37px;
+    top: -43px;
+    scale: 1.3;
+
+}
+header div:nth-child(7)::before  {
+    background-image: url(m7.png);
+    left: -40px;
+    top: -26px;
+    scale: 1.4;
+
+}
+header div:nth-child(8)::before  {
+    background-image: url(m8.png);
+    left: -40px;
+    top: -26px;
+    scale: 1.4;
+
+}
+header div:nth-child(9)::before  {
+    background-image: url(m9.png);
+    left: -40px;
+    top: -26px;
+    scale: 1.4;
+
+}
+header div:nth-child(10)::before  {
+    background-image: url(m10.png);
+    left: -39px;
+    top: -7px;
+    scale: 2.4;
+
+}
+header div:nth-child(11)::before  {
+    background-image: url(m11.png);
+    left: -39px;
+    top: -36px;
+    scale: 1.2;
+
+}
+header div:nth-child(8)::after  {
+    width: 180%;
+    height: 360%;
+    content: " ";
+    position: absolute;
+    background-image: url(imatge.png);
+    background-size: 100%;
+    left: -40px;
+    top: 140px;
+    z-index: -2;
+
+}
+/*cada un dels contenidors dels ulls*/
+header>div:first-child,
+main>div:first-child {
+    align-self: baseline;
+    left: 10%;
+    scale: 0.90;
+  
+}
+
+header>div:nth-child(2),
+main>div:nth-child(2) {
+    align-self: flex-end;
+    justify-content: space-between;
+    margin-right: 10%;
+    scale: 0.75;
+    gap: 24px;
+
+}
+
+header>div:nth-child(3),
+main>div:nth-child(3) {
+    align-self: center;
+
+    right: 10%;
+    scale: 1.2;
+}
+
+header>div:nth-child(4),
+main>div:nth-child(4) {
+    align-self: flex-end;
+    scale: 1.35;
+}
+
+header>div:nth-child(5),
+main>div:nth-child(5) {
+    align-self: baseline;
+
+    left: 3%;
+    scale: 1.8;
+}
+
+header>div:nth-child(6),
+main>div:nth-child(6) {
+    align-self: flex-end;
+    right: 15%;
+    scale: .85;
+}
+
+header>div:nth-child(7),
+main>div:nth-child(7) {
+    align-self: baseline;
+    left: 25%;
+    scale: 0.9;
+
+}
+
+header>div:nth-child(8),
+main>div:nth-child(8) {
+    align-self: center;
+    scale: 0.8;
+}
+
+header>div:nth-child(9),
+main>div:nth-child(9) {
+    align-self: flex-end;
+    scale: 1.1;
+}
+
+header>div:nth-child(10),
+main>div:nth-child(10) {
+    align-self: baseline;
+    scale: .75;
+    left: -2%;
+}
+
+header>div:nth-child(11),
+main>div:nth-child(11) {
+    align-self: center;
+    scale: .3;
+    left: 22%;
+}
+
+header>div:last-child,
+main>div:last-child {
+    align-self: baseline;
+    left: 38%;
+    bottom: -2%;
+    scale: 1.50;
+}
+
+
+main div div {
+    /* blank dels ulls*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    height: 90%;
+    width: 44%;
+    background: #CCC;
+    border: #000 solid 2px;
+    overflow: hidden;
+    transition: height 0.15s;
+    transition-timing-function: cubic-bezier(1, 0, 0, 1.5);
+}
+
+/*BOLES DELS ULLS*/
+main div div>div {
+    background-color: black;
+    width: 10px;
+    height: 10px;
+    background-color: black;
+    border-radius: 50%;
+    position: relative;
+}
+
+
+body>main>div:nth-child(2)>div>div {
+    width: 20px;
+    height: 20px;
+}
+
+body>main>div:nth-child(3)>div>div {
+    width: 20px;
+    height: 20px;
+}
+
+body>main>div:nth-child(5)>div>div {
+    width: 12px;
+    height: 12px;
+}
+
+body>main>div:nth-child(7)>div>div {
+    width: 12px;
+    height: 12px;
+}
+
+body>main>div:nth-child(8)>div>div {
+    width: 15px;
+    height: 15px;
+}
+
+body>main>div:nth-child(10)>div>div {
+    width: 19px;
+    height: 19px;
+}
+
+/* 
+.eyeball {
+    width: 10px;
+    height: 10px;
+    background-color: black;
+    border-radius: 50%;
+    position: relative;
+} */
