@@ -1,186 +1,103 @@
 :root {
-    --mouse-x: 50%;
-    --mouse-y: 50%;
-  }
-* {
-    margin: 0px;
-    padding: 0px;
+    /* JS DYNAIMC VARS */
+    --p-x;
+    --p-y;
+    --wrapperLeftPosition;
+    --wrapperHeight;
+    --wrapperWidthDynamic;
+
+    /* CSS STATIC VARS */
+    --wrapperWidth: 1536px;
 }
+
+
 
 body {
-
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: pink;
-    text-align: center;
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+
 }
 
-.wraper{
+.wrapper {
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
     background-image: url('../assets/img/back.jpg');
-    background-position: bottom 0px left 0px;
-    background-size: 1536px auto;
+    background-size: var(--wrapperWidth), auto;
     background-repeat: no-repeat;
-    width: 100vw;
-    height: 100vh;
-    text-align: center;
-
+    height: var(--wrapperHeight);
+    /* width: 100vw; */
+    width: var(--wrapperWidthDynamic);
+    bottom: 0px;
+    background-color: blue;
+    left: var(--wrapperLeftPosition);
+    overflow-x: hidden;
 }
 
 header,
-main,.torch {
-    width: 100vw;
-    height: 100vh;
+main,
+.night,
+.back {
+    margin: 0px;
+    padding: 0px;
+    width: var(--wrapperWidth);
     background-color: transparent;
     overflow: hidden;
     position: absolute;
+    bottom: 0px;
 }
 
-.torch {
-    background-color: hsla(0,0%,0%, 0.97);
+.back {
+    background-color: #000
+}
+
+.night {
+    height: var(--wrapperHeight);
+    background-color: hsla(0, 0%, 0%, .5);
     mask: radial-gradient(
         circle at var(--p-x) var(--p-y),
         transparent 3%,
         black 15%
       );
-      -webkit-mask: radial-gradient(
-        circle at var(--p-x) var(--p-y),
-        transparent 3%,
-        black 15%
-      );
-}   
-header {
-    z-index: 5;
-}
-
-.torch {
-    z-index: 10;
-}
-
-main {
-
-    z-index: 15;
+    -webkit-mask: radial-gradient(circle at var(--p-x) var(--p-y),
+            transparent 3%,
+            black 15%);
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 /*contenidors dels ulls*/
-header div,
-main div {
-    position: relative;
-    display: none;
+header>div,
+main>div {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    position: fixed;
     justify-content: space-evenly;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
     width: 100px;
     height: 50px;
 }
 
-header div::before {
-    width: 180%;
-    height: 360%;
-    content: " ";
-    position: absolute;
-    background-size: 100%;
-    z-index: -1;
-}
-header div:nth-child(1)::before  {
-    background-image: url(../assets/img/m1.png);
-    left: -42px;
-    top: -34px;
-}
-header div:nth-child(2)::before  {
-    background-image: url(../assets/img/m2.png);
-    left: -39px;
-    top: -38px;
-    scale: 1.3;
-}
-header div:nth-child(3)::before  {
-    background-image: url(../assets/img/m3.png);
-    left: -42px;
-    top: -26px;
-    scale: 1.5;
-}
-header div:nth-child(4)::before  {
-    background-image: url(../assets/img/m4.png);
-    left: -41px;
-    top: -47px;
-    scale: 1.2;
-}
-header div:nth-child(5)::before  {
-    background-image: url(../assets/img/m5.png);
-    left: -41px;
-    top: -47px;
-    scale: 1.2;
-}
-header div:nth-child(6)::before  {
-    background-image: url(../assets/img/m6.png);
-    left: -37px;
-    top: -43px;
-    scale: 1.3;
-
-}
-header div:nth-child(7)::before  {
-    background-image: url(../assets/img/m7.png);
-    left: -40px;
-    top: -26px;
-    scale: 1.4;
-
-}
-header div:nth-child(8)::before  {
-    background-image: url(../assets/img/m8.png);
-    left: -40px;
-    top: -26px;
-    scale: 1.4;
-
-}
-header div:nth-child(9)::before  {
-    background-image: url(../assets/img/m9.png);
-    left: -40px;
-    top: -26px;
-    scale: 1.4;
-
-}
-header div:nth-child(10)::before  {
-    background-image: url(../assets/img/m10.png);
-    left: -39px;
-    top: -7px;
-    scale: 2.4;
-
-}
-header div:nth-child(11)::before  {
-    background-image: url(../assets/img/m11.png);
-    left: -39px;
-    top: -36px;
-    scale: 1.2;
-
-}
-/* header div:nth-child(8)::after  {
-    width: 180%;
-    height: 360%;
-    content: " ";
-    position: absolute;
-    background-image: url(../assets/img/imatge.png);
-    background-size: 100%;
-    left: -40px;
-    top: 140px;
-    z-index: -2;
-
-} */
 /*cada un dels contenidors dels ulls*/
+
 header>div:nth-child(1),
 main>div:nth-child(1) {
-    display: flex;
-    position: fixed;
-    left: 227px;
+
+    left: calc(var(--wrapperLeftPosition) + 227px);
     bottom: 433px;
     scale: 0.60;
-  
+
 }
 
- header>div:nth-child(2),
+header>div:nth-child(2),
 main>div:nth-child(2) {
-    display: flex;
-    position: fixed;
-    left: 110px;
+
+    left: calc(var(--wrapperLeftPosition) + 110px);
     bottom: 589px;
     scale: 0.75;
 
@@ -189,45 +106,40 @@ main>div:nth-child(2) {
 
 header>div:nth-child(3),
 main>div:nth-child(3) {
-    display: flex;
-    position: fixed;
-    left: 323px;
+
+    left: calc(var(--wrapperLeftPosition) + 323px);
     bottom: 153px;
     scale: 1.2;
 }
 
 header>div:nth-child(4),
 main>div:nth-child(4) {
-    display: flex;
-    position: fixed;
-    left: 40px;
+
+    left: calc(var(--wrapperLeftPosition) + 40px);
     bottom: 241px;
     scale: 0.9;
 }
 
 header>div:nth-child(5),
 main>div:nth-child(5) {
-    display: flex;
-    position: fixed;
-    left: 624px;
+
+    left: calc(var(--wrapperLeftPosition) + 624px);
     bottom: 203px;
     scale: 0.9;
 }
 
 header>div:nth-child(6),
 main>div:nth-child(6) {
-    display: flex;
-    position: fixed;
-    left: 673px;
+
+    left: calc(var(--wrapperLeftPosition) + 673px);
     bottom: 464px;
     scale: 0.6;
 }
 
 header>div:nth-child(7),
 main>div:nth-child(7) {
-    display: flex;
-    position: fixed;
-    left: 850px;
+
+    left: calc(var(--wrapperLeftPosition) + 850px);
     bottom: 893px;
     scale: 0.6;
 
@@ -235,9 +147,8 @@ main>div:nth-child(7) {
 
 header>div:nth-child(8),
 main>div:nth-child(8) {
-    display: flex;
-    position: fixed;
-    left: 1073px;
+
+    left: calc(var(--wrapperLeftPosition) + 1073px);
     bottom: 679px;
     scale: 0.4;
 
@@ -245,18 +156,16 @@ main>div:nth-child(8) {
 
 header>div:nth-child(9),
 main>div:nth-child(9) {
-    display: flex;
-    position: fixed;
-    left: 1280px;
+
+    left: calc(var(--wrapperLeftPosition) + 1280px);
     bottom: 589px;
     scale: 1.2;
 }
 
 header>div:nth-child(10),
 main>div:nth-child(10) {
-    display: flex;
-    position: fixed;
-    left: 964px;
+
+    left: calc(var(--wrapperLeftPosition) + 964px);
     bottom: 297px;
     scale: 1.2;
 
@@ -264,18 +173,113 @@ main>div:nth-child(10) {
 
 header>div:nth-child(11),
 main>div:nth-child(11) {
-    display: flex;
-    position: fixed;
-    left: 294px;
+
+    left: calc(var(--wrapperLeftPosition) + 294px);
     bottom: 876px;
     scale: 0.5;
 }
 
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*monstres*/
+header>div::before {
+    width: 180%;
+    height: 360%;
+    content: " ";
+    position: absolute;
+    background-size: 100%;
+    z-index: -1;
+}
 
+/*cada monstre*/
+header div:nth-child(1)::before {
+    background-image: url(../assets/img/m1.png);
+    left: -42px;
+    top: -34px;
+    scale: 1;
+}
 
+header div:nth-child(2)::before {
+    background-image: url(../assets/img/m2.png);
+    left: -39px;
+    top: -38px;
+    scale: 1.3;
+}
+
+header div:nth-child(3)::before {
+    background-image: url(../assets/img/m3.png);
+    left: -42px;
+    top: -26px;
+    scale: 1.5;
+}
+
+header div:nth-child(4)::before {
+    background-image: url(../assets/img/m4.png);
+    left: -41px;
+    top: -47px;
+    scale: 1.2;
+}
+
+header div:nth-child(5)::before {
+    background-image: url(../assets/img/m5.png);
+    left: -41px;
+    top: -47px;
+    scale: 1.2;
+}
+
+header div:nth-child(6)::before {
+    background-image: url(../assets/img/m6.png);
+    left: -37px;
+    top: -43px;
+    scale: 1.3;
+
+}
+
+header div:nth-child(7)::before {
+    background-image: url(../assets/img/m7.png);
+    left: -40px;
+    top: -26px;
+    scale: 1.4;
+
+}
+
+header div:nth-child(8)::before {
+    background-image: url(../assets/img/m8.png);
+    left: -40px;
+    top: -26px;
+    scale: 1.4;
+
+}
+
+header div:nth-child(9)::before {
+    background-image: url(../assets/img/m9.png);
+    left: -40px;
+    top: -26px;
+    scale: 1.4;
+
+}
+
+header div:nth-child(10)::before {
+    background-image: url(../assets/img/m10.png);
+    left: -39px;
+    top: -7px;
+    scale: 2.4;
+
+}
+
+header div:nth-child(11)::before {
+    background-image: url(../assets/img/m11.png);
+    left: -39px;
+    top: -36px;
+    scale: 1.2;
+
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------*/
+/*blank dels ulls*/
 
 main div div {
-    /* blank dels ulls*/
+    margin: 0px;
+    padding: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -289,8 +293,10 @@ main div div {
     transition-timing-function: cubic-bezier(1, 0, 0, 1.5);
 }
 
-/*BOLES DELS ULLS*/
+/*boles dels ulls*/
 main div div>div {
+    margin: 0px;
+    padding: 0px;
     background-color: black;
     width: 10px;
     height: 10px;

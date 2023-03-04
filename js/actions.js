@@ -1,51 +1,84 @@
-// body > main > div:nth-child(7) > div:nth-child(1)
 
-const gRN = (min, max) => {
-  return Math.floor(min + Math.random() * (max - min + 1));
+////////////////////////////////////////////////////////VARIABLE ASSIGNATION
+const back = document.querySelector("img.back");
+const night = document.querySelector(".night");
+const docStyle = document.documentElement.style;
+let vw = document.documentElement.clientWidth;
+let vh = document.documentElement.clientHeight;
+
+const centerCanvas = (wW) => {
+  if (window.mobileAndTabletCheck()) {
+    docStyle.setProperty("--wrapperWidthDynamic", "100vw");
+  } else {
+    console.log('soc mobil');
+    docStyle.setProperty("--wrapperWidthDynamic", `${wW}px`);
+  }
+  const resizeCalculations = () => {
+    vw = document.documentElement.clientWidth;
+    vh = document.documentElement.clientHeight;
+    docStyle.setProperty("--vh", document.documentElement.clientHeight);
+    docStyle.setProperty("--vw", document.documentElement.clientWidth);
+    const wrapperLeftPosition = (vw - wW) / 2;
+    if (vw > wW) {
+      docStyle.setProperty("--wrapperLeftPosition", `${wrapperLeftPosition}px`);
+    } else {
+      docStyle.setProperty("--wrapperLeftPosition", `0px`);
+    }
+  };
+
+  resizeCalculations();
+  window.addEventListener("resize", () => {
+    resizeCalculations();
+  });
 };
 
-const closeEyesRandom = (element, number) => {
-  let el = [...element];
+///////////////////////////////////////////////////////CLOSE EYES/////////////////////////////////////////////////////////////////
+const closeEyes = (selector) => {
+  
+  const closeEyesRandom = (element, number) => {
+    let el = [...element];
     // el.forEach(()=>{})
-
-  el.forEach((e) => {
-    let oldHeight = e.style.height;
-    e.style.height = 0;
-    setTimeout(() => {
-      e.style.height = oldHeight;
-    }, 200);
-    setInterval(() => {
+    el.forEach((e) => {
+      let oldHeight = e.style.height;
       e.style.height = 0;
       setTimeout(() => {
         e.style.height = oldHeight;
       }, 200);
-    }, number);
-  });
-};
-
-const closeEyesAll = (selector) => {
+      setInterval(() => {
+        e.style.height = 0;
+        setTimeout(() => {
+          e.style.height = oldHeight;
+        }, 200);
+      }, number);
+    });
+  };
   const eyePair = document.querySelectorAll(selector);
   eyePair.forEach((element) => {
-
     setTimeout(() => {
-      closeEyesRandom(element.children, gRN(3000, 16000));
-    }, gRN(100, 5000));
+      closeEyesRandom(element.children, randomNumber(3000, 16000));
+    }, randomNumber(100, 5000));
   });
-
-  //closeEyesRandom("body > main > div:nth-child(7) > div",gRN(4000,16000));
+};
+///////////////////////////////////////////////////////////////////////////NIGHT LANTENR//////////////////////////////////////////////////
+const nightLantern = (wW, wH) => {
+  docStyle.setProperty("--wrapperHeight", `${wH}px`);
+  night.addEventListener("pointermove", (pos) => {
+    const wrapperLeftPosition = (vw - wW) / 2;
+    const wrapperTopPosition = vh - wH;
+    const xOffset = wrapperLeftPosition / wW;
+    const yOffset = wrapperTopPosition / wH;
+    let x = parseInt((pos.clientX / wW - (xOffset >= 0 ? xOffset : 0)) * 100);
+    let y = parseInt((pos.clientY / wH - yOffset) * 100);
+    docStyle.setProperty("--p-x", x + "%");
+    docStyle.setProperty("--p-y", y + "%");
+  });
 };
 
-const mask = document.querySelector('.torch');
-document.addEventListener('pointermove', (pos) => {
-    let x = parseInt(pos.clientX / window.innerWidth * 100);
-    let y = parseInt(pos.clientY / window.innerHeight * 100);
+////////////////////////////////////////////////////////////////////////////APP//////////////////////////////////////////////////////////////
 
-    mask.style.setProperty('--p-x', x + '%');
-    mask.style.setProperty('--p-y', y + '%'); 
-});
-
-
-closeEyesAll("body > main > div");
+centerCanvas(1536);
+nightLantern(1536, 1021);
+closeEyes("main > div");
 //
 
 let eyes = new S_turn("u1", {
@@ -60,7 +93,7 @@ let eyes = new S_turn("u1", {
   followDeacceleration: 0,
   gDeviation: 0,
   gMulFactor: 0,
-  excludeWithS_fex: ['exclude', 'cont'],
+  excludeWithS_fex: ["exclude", "cont"],
   easyReturn: {
     on: true,
     includeRotation: false,

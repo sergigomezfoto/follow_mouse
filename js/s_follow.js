@@ -57,7 +57,6 @@ class S_turn {
     // console.log(this);
   }
   #resize() {
-    console.log('a');
     document.querySelectorAll(this.selector).forEach((e, i) => {
       this.#position(e, i);
     });
