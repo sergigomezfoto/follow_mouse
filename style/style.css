@@ -8,31 +8,34 @@
 }
 
 body {
-    background-image: url('back.jpg');
-    background-position: bottom 0px left 0px;
+
     width: 100vw;
     height: 100vh;
+    background-color: pink;
+    text-align: center;
 }
 
-
-header,
-main {
+.wraper{
+    background-image: url('../assets/img/back.jpg');
+    background-position: bottom 0px left 0px;
+    background-size: 1536px auto;
+    background-repeat: no-repeat;
     width: 100vw;
     height: 100vh;
-    display: flex;
-    flex-flow: column wrap;
-    align-items: baseline;
-    justify-content: space-evenly;
+    text-align: center;
+
+}
+
+header,
+main,.torch {
+    width: 100vw;
+    height: 100vh;
     background-color: transparent;
-    gap: 40px;
     overflow: hidden;
     position: absolute;
 }
 
 .torch {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
     background-color: hsla(0,0%,0%, 0.97);
     mask: radial-gradient(
         circle at var(--p-x) var(--p-y),
@@ -44,13 +47,12 @@ main {
         transparent 3%,
         black 15%
       );
-      z-index: 10;
-}
+}   
 header {
     z-index: 5;
 }
 
-span {
+.torch {
     z-index: 10;
 }
 
@@ -60,11 +62,11 @@ main {
 }
 
 /*-----------------------------------------------------------------------------------------------------------------------------*/
+/*contenidors dels ulls*/
 header div,
 main div {
-    /*contenidors dels ulls*/
     position: relative;
-    display: flex;
+    display: none;
     justify-content: space-evenly;
     align-items: center;
     background-color: rgba(0, 0, 0, 0);
@@ -77,190 +79,199 @@ header div::before {
     height: 360%;
     content: " ";
     position: absolute;
-    background-image: url(imatge.png);
     background-size: 100%;
-    left: -40px;
-    top: -16px;
     z-index: -1;
 }
-header div:first-child::before  {
-    /* width: 180%;
-    height: 360%;
-    content: " ";
-    position: absolute; */
-    background-image: url(m1.png);
-    /* background-size: 100%;
-    z-index: -1; */
+header div:nth-child(1)::before  {
+    background-image: url(../assets/img/m1.png);
     left: -42px;
     top: -34px;
 }
 header div:nth-child(2)::before  {
-    background-image: url(m2.png);
+    background-image: url(../assets/img/m2.png);
     left: -39px;
     top: -38px;
     scale: 1.3;
 }
 header div:nth-child(3)::before  {
-    background-image: url(m3.png);
+    background-image: url(../assets/img/m3.png);
     left: -42px;
     top: -26px;
     scale: 1.5;
 }
 header div:nth-child(4)::before  {
-    background-image: url(m4.png);
+    background-image: url(../assets/img/m4.png);
     left: -41px;
     top: -47px;
     scale: 1.2;
 }
 header div:nth-child(5)::before  {
-    background-image: url(m5.png);
+    background-image: url(../assets/img/m5.png);
     left: -41px;
     top: -47px;
     scale: 1.2;
 }
 header div:nth-child(6)::before  {
-    background-image: url(m6.png);
+    background-image: url(../assets/img/m6.png);
     left: -37px;
     top: -43px;
     scale: 1.3;
 
 }
 header div:nth-child(7)::before  {
-    background-image: url(m7.png);
+    background-image: url(../assets/img/m7.png);
     left: -40px;
     top: -26px;
     scale: 1.4;
 
 }
 header div:nth-child(8)::before  {
-    background-image: url(m8.png);
+    background-image: url(../assets/img/m8.png);
     left: -40px;
     top: -26px;
     scale: 1.4;
 
 }
 header div:nth-child(9)::before  {
-    background-image: url(m9.png);
+    background-image: url(../assets/img/m9.png);
     left: -40px;
     top: -26px;
     scale: 1.4;
 
 }
 header div:nth-child(10)::before  {
-    background-image: url(m10.png);
+    background-image: url(../assets/img/m10.png);
     left: -39px;
     top: -7px;
     scale: 2.4;
 
 }
 header div:nth-child(11)::before  {
-    background-image: url(m11.png);
+    background-image: url(../assets/img/m11.png);
     left: -39px;
     top: -36px;
     scale: 1.2;
 
 }
-header div:nth-child(8)::after  {
+/* header div:nth-child(8)::after  {
     width: 180%;
     height: 360%;
     content: " ";
     position: absolute;
-    background-image: url(imatge.png);
+    background-image: url(../assets/img/imatge.png);
     background-size: 100%;
     left: -40px;
     top: 140px;
     z-index: -2;
 
-}
+} */
 /*cada un dels contenidors dels ulls*/
-header>div:first-child,
-main>div:first-child {
-    align-self: baseline;
-    left: 10%;
-    scale: 0.90;
+header>div:nth-child(1),
+main>div:nth-child(1) {
+    display: flex;
+    position: fixed;
+    left: 227px;
+    bottom: 433px;
+    scale: 0.60;
   
 }
 
-header>div:nth-child(2),
+ header>div:nth-child(2),
 main>div:nth-child(2) {
-    align-self: flex-end;
-    justify-content: space-between;
-    margin-right: 10%;
+    display: flex;
+    position: fixed;
+    left: 110px;
+    bottom: 589px;
     scale: 0.75;
-    gap: 24px;
+
 
 }
 
 header>div:nth-child(3),
 main>div:nth-child(3) {
-    align-self: center;
-
-    right: 10%;
+    display: flex;
+    position: fixed;
+    left: 323px;
+    bottom: 153px;
     scale: 1.2;
 }
 
 header>div:nth-child(4),
 main>div:nth-child(4) {
-    align-self: flex-end;
-    scale: 1.35;
+    display: flex;
+    position: fixed;
+    left: 40px;
+    bottom: 241px;
+    scale: 0.9;
 }
 
 header>div:nth-child(5),
 main>div:nth-child(5) {
-    align-self: baseline;
-
-    left: 3%;
-    scale: 1.8;
+    display: flex;
+    position: fixed;
+    left: 624px;
+    bottom: 203px;
+    scale: 0.9;
 }
 
 header>div:nth-child(6),
 main>div:nth-child(6) {
-    align-self: flex-end;
-    right: 15%;
-    scale: .85;
+    display: flex;
+    position: fixed;
+    left: 673px;
+    bottom: 464px;
+    scale: 0.6;
 }
 
 header>div:nth-child(7),
 main>div:nth-child(7) {
-    align-self: baseline;
-    left: 25%;
-    scale: 0.9;
+    display: flex;
+    position: fixed;
+    left: 850px;
+    bottom: 893px;
+    scale: 0.6;
 
 }
 
 header>div:nth-child(8),
 main>div:nth-child(8) {
-    align-self: center;
-    scale: 0.8;
+    display: flex;
+    position: fixed;
+    left: 1073px;
+    bottom: 679px;
+    scale: 0.4;
+
 }
 
 header>div:nth-child(9),
 main>div:nth-child(9) {
-    align-self: flex-end;
-    scale: 1.1;
+    display: flex;
+    position: fixed;
+    left: 1280px;
+    bottom: 589px;
+    scale: 1.2;
 }
 
 header>div:nth-child(10),
 main>div:nth-child(10) {
-    align-self: baseline;
-    scale: .75;
-    left: -2%;
+    display: flex;
+    position: fixed;
+    left: 964px;
+    bottom: 297px;
+    scale: 1.2;
+
 }
 
 header>div:nth-child(11),
 main>div:nth-child(11) {
-    align-self: center;
-    scale: .3;
-    left: 22%;
+    display: flex;
+    position: fixed;
+    left: 294px;
+    bottom: 876px;
+    scale: 0.5;
 }
 
-header>div:last-child,
-main>div:last-child {
-    align-self: baseline;
-    left: 38%;
-    bottom: -2%;
-    scale: 1.50;
-}
+
 
 
 main div div {
