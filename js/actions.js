@@ -1,4 +1,3 @@
-
 ////////////////////////////////////////////////////////VARIABLE ASSIGNATION
 const back = document.querySelector("img.back");
 const night = document.querySelector(".night");
@@ -47,43 +46,72 @@ const nightLantern = (wW, wH) => {
 };
 
 ///////////////////////////////////////////////////////CLOSE EYES/////////////////////////////////////////////////////////////////
-const closeEyes = (selector) => {
-  const oldHeight = '0%'
-  const openHeight= '90%'
-  let totalElementCount=0;
-  const closeEyesRandom = (element, number) => {
+const enterMonstersCloseEyes = (selector) => {
+  const oldHeight = "0%";
+  const openHeight = "90%";
+
+  const enterMonstersCloseEyesRandom = (element, number) => {
     let el = [...element];
-    // el.forEach(()=>{})
-    totalElementCount = totalElementCount +1 ;
-    console.log(totalElementCount);
-    console.log(el.length);
+    totalElementCount = totalElementCount + 1;
+    if (eyePair.length === totalElementCount) {
+      setTimeout(() => {}, 1000);
+    }
     el.forEach((e) => {
-      // let oldHeight = e.style.height;
-      e.style.height = openHeight;
-      // setTimeout(() => {
-      //   e.style.height = oldHeight;
-      // }, 200);
-      setInterval(() => {
-        e.style.height = oldHeight;
-        setTimeout(() => {
-          e.style.height = openHeight;
-        }, 200);
-      }, number);
+      e.style.visibility = "visible";
+      setTimeout(() => {
+        e.style.height = openHeight;
+        setInterval(() => {
+          e.style.height = oldHeight;
+          setTimeout(() => {
+            e.style.height = openHeight;
+          }, 200);
+        }, number);
+      }, 500);
     });
   };
   const eyePair = document.querySelectorAll(selector);
+  let totalElementCount = 0;
   eyePair.forEach((element) => {
-    totalElementCount = + 1;
     setTimeout(() => {
-      closeEyesRandom(element.children, randomNumber(3000, 16000));
+      enterMonstersCloseEyesRandom(element.children, randomNumber(3000, 16000));
     }, randomNumber(100, 5000));
   });
+};
+
+const sleep = async (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+const element = async (el) => {
+
+  el.style.display = "block";
+  await sleep(500);
+  el.style.opacity = "1";
+  await sleep(3000);
+  el.style.opacity = "0";
+  await sleep(1000);
+  el.style.display = "none";
+ 
+};
+
+const caratuleTitles = async () => {
+  const titleLines = document.querySelectorAll("div.caratule > span");
+  for (const el of titleLines) {
+    await element(el);
+    
+  }
+  
 };
 
 ////////////////////////////////////////////////////////////////////////////APP//////////////////////////////////////////////////////////////
 centerCanvas(1536);
 nightLantern(1536, 1021);
-closeEyes("main > div");
+window.onload = function () {
+  caratuleTitles();
+  const start = () => {
+    enterMonstersCloseEyes("main > div");
+  };
+};
 //
 
 let eyes = new S_turn("u1", {
