@@ -49,6 +49,9 @@ class S_turn {
     document
       .querySelector(this.followOnHoveringElement)
       .addEventListener("pointermove", this.eventListenerFunction, { signal: this["abortController"].signal });
+    document
+      .querySelector(this.followOnHoveringElement)
+      .addEventListener("touchmove", this.eventListenerFunction, {  passive: false ,signal: this["abortController"].signal });
 
     this.resize = () => this.#resize();
     this.resizeFunction = this.resize.bind(this);
@@ -105,7 +108,12 @@ class S_turn {
   };
 
   #followStart(event) {
+
+    // console.log(event.touches[0].clientX);
+    event.preventDefault();
+    event.stopImmediatePropagation();
     const coEvt = event.getCoalescedEvents();
+
     const hovering_excluded = event.target.attributes.s_fex?.value; // '?' hi ha s_flex? si no no ho pillis
     const elements = document.querySelectorAll(this.selector);
     this.isCursorInactive = this.excludeWithS_fex?.some((e) => e === hovering_excluded) ? true : false;
@@ -118,6 +126,7 @@ class S_turn {
             this["event_count" + i] = 0;
           }
           for (let ev of coEvt) {
+            // console.log(ev.touches[0].clientX);
             this["event_count" + i]++;
             if (this["event_count" + i] % this.followDeacceleration === 0) {
               let ySum = this.yOffset === 0 ? 0 : this.yOffset > 0 ? 180 : 0;

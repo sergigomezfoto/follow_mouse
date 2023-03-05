@@ -10,7 +10,6 @@ const centerCanvas = (wW) => {
   if (window.mobileAndTabletCheck()) {
     docStyle.setProperty("--wrapperWidthDynamic", "100vw");
   } else {
-    console.log('soc mobil');
     docStyle.setProperty("--wrapperWidthDynamic", `${wW}px`);
   }
   const resizeCalculations = () => {
@@ -32,33 +31,6 @@ const centerCanvas = (wW) => {
   });
 };
 
-///////////////////////////////////////////////////////CLOSE EYES/////////////////////////////////////////////////////////////////
-const closeEyes = (selector) => {
-  
-  const closeEyesRandom = (element, number) => {
-    let el = [...element];
-    // el.forEach(()=>{})
-    el.forEach((e) => {
-      let oldHeight = e.style.height;
-      e.style.height = 0;
-      setTimeout(() => {
-        e.style.height = oldHeight;
-      }, 200);
-      setInterval(() => {
-        e.style.height = 0;
-        setTimeout(() => {
-          e.style.height = oldHeight;
-        }, 200);
-      }, number);
-    });
-  };
-  const eyePair = document.querySelectorAll(selector);
-  eyePair.forEach((element) => {
-    setTimeout(() => {
-      closeEyesRandom(element.children, randomNumber(3000, 16000));
-    }, randomNumber(100, 5000));
-  });
-};
 ///////////////////////////////////////////////////////////////////////////NIGHT LANTENR//////////////////////////////////////////////////
 const nightLantern = (wW, wH) => {
   docStyle.setProperty("--wrapperHeight", `${wH}px`);
@@ -74,8 +46,41 @@ const nightLantern = (wW, wH) => {
   });
 };
 
-////////////////////////////////////////////////////////////////////////////APP//////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////CLOSE EYES/////////////////////////////////////////////////////////////////
+const closeEyes = (selector) => {
+  const oldHeight = '0%'
+  const openHeight= '90%'
+  let totalElementCount=0;
+  const closeEyesRandom = (element, number) => {
+    let el = [...element];
+    // el.forEach(()=>{})
+    totalElementCount = totalElementCount +1 ;
+    console.log(totalElementCount);
+    console.log(el.length);
+    el.forEach((e) => {
+      // let oldHeight = e.style.height;
+      e.style.height = openHeight;
+      // setTimeout(() => {
+      //   e.style.height = oldHeight;
+      // }, 200);
+      setInterval(() => {
+        e.style.height = oldHeight;
+        setTimeout(() => {
+          e.style.height = openHeight;
+        }, 200);
+      }, number);
+    });
+  };
+  const eyePair = document.querySelectorAll(selector);
+  eyePair.forEach((element) => {
+    totalElementCount = + 1;
+    setTimeout(() => {
+      closeEyesRandom(element.children, randomNumber(3000, 16000));
+    }, randomNumber(100, 5000));
+  });
+};
 
+////////////////////////////////////////////////////////////////////////////APP//////////////////////////////////////////////////////////////
 centerCanvas(1536);
 nightLantern(1536, 1021);
 closeEyes("main > div");

@@ -15,7 +15,7 @@
 body {
     width: 100%;
     height: 100%;
-    background-color: pink;
+    background-color: rgb(0, 0, 0);
     overflow: hidden;
     margin: 0px;
     padding: 0px;
@@ -57,7 +57,7 @@ main,
 
 .night {
     height: var(--wrapperHeight);
-    background-color: hsla(0, 0%, 0%, .5);
+    background-color: hsla(0, 0%, 0%, .95);
     mask: radial-gradient(
         circle at var(--p-x) var(--p-y),
         transparent 3%,
@@ -277,14 +277,14 @@ header div:nth-child(11)::before {
 /*---------------------------------------------------------------------------------------------------------------------------*/
 /*blank dels ulls*/
 
-main div div {
+main>div>div {
     margin: 0px;
     padding: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    height: 90%;
+    height: 0%;
     width: 44%;
     background: #CCC;
     border: #000 solid 2px;
@@ -293,48 +293,41 @@ main div div {
     transition-timing-function: cubic-bezier(1, 0, 0, 1.5);
 }
 
+
 /*boles dels ulls*/
-main div div>div {
+main>div>div div {
     margin: 0px;
     padding: 0px;
     background-color: black;
     width: 10px;
     height: 10px;
-    background-color: black;
     border-radius: 50%;
     position: relative;
 }
 
 
-body>main>div:nth-child(2)>div>div {
-    width: 20px;
-    height: 20px;
+/*CADA UNA DELS BLANCS I BOLES*/
+/*RECIPIENT ULLS*/
+main>div:nth-child(1) {
+
+    
+}
+/*BLANC*/
+main>div:nth-child(1)> div{
+
+    border: #000 solid 1px;
+
+    background: rgb(255,217,209);
+    background: radial-gradient(circle, rgba(255,217,209,1) 0%, rgba(223,169,160,1) 57%, rgba(125,23,8,1) 77%);
+}
+/*BOLES*/
+main>div:nth-child(1)>div>div {
+    width: 10px;
+    height: 10px;
+    border: #000 solid 1px;
+    background-color: rgb(143, 24, 24);
 }
 
-body>main>div:nth-child(3)>div>div {
-    width: 20px;
-    height: 20px;
-}
-
-body>main>div:nth-child(5)>div>div {
-    width: 12px;
-    height: 12px;
-}
-
-body>main>div:nth-child(7)>div>div {
-    width: 12px;
-    height: 12px;
-}
-
-body>main>div:nth-child(8)>div>div {
-    width: 15px;
-    height: 15px;
-}
-
-body>main>div:nth-child(10)>div>div {
-    width: 19px;
-    height: 19px;
-}
 
 /* 
 .eyeball {
