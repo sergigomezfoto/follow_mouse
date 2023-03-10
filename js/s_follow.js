@@ -1,3 +1,7 @@
+//TOD VEURE EL TEMA MOBIL funciona però dona error pq intenta agafar getCoalescedEvents() del touchmove i no el té.
+
+const s_isMobile = () => window.matchMedia("only screen and (max-width: 760px)").matches;
+
 class S_turn {
   selector;
   degreeRange;
@@ -10,7 +14,7 @@ class S_turn {
   gDeviation = 0;
   gMulFactor = 1;
   excludeWithS_fex = [];
-  followOnHoveringElement = "body";
+  followOnHoveringElement = ".night";
   easyReturn = {
     on: false,
     includeRotation: false,
@@ -46,12 +50,15 @@ class S_turn {
     this["abortController"] = new AbortController();
     if (this.detectWindowLeaveEnter) {
     }
-    document
-      .querySelector(this.followOnHoveringElement)
-      .addEventListener("pointermove", this.eventListenerFunction, { signal: this["abortController"].signal });
-    document
-      .querySelector(this.followOnHoveringElement)
-      .addEventListener("touchmove", this.eventListenerFunction, {  passive: false ,signal: this["abortController"].signal });
+    if (!s_isMobile()) {
+      document
+        .querySelector(this.followOnHoveringElement)
+        .addEventListener("pointermove", this.eventListenerFunction, { signal: this["abortController"].signal });
+    } else {
+      document
+        .querySelector(this.followOnHoveringElement)
+        .addEventListener("touchmove", this.eventListenerFunction, { passive: false, signal: this["abortController"].signal });
+    }
 
     this.resize = () => this.#resize();
     this.resizeFunction = this.resize.bind(this);
@@ -108,14 +115,18 @@ class S_turn {
   };
 
   #followStart(event) {
-
-    // console.log(event.touches[0].clientX);
     event.preventDefault();
-    event.stopImmediatePropagation();
-    const coEvt = event.getCoalescedEvents();
-
-    const hovering_excluded = event.target.attributes.s_fex?.value; // '?' hi ha s_flex? si no no ho pillis
+    const coEvt = s_isMobile() ? [event] : event.getCoalescedEvents();
     const elements = document.querySelectorAll(this.selector);
+    let hovering_excluded;
+    if (s_isMobile()) {
+      let targetElement = document.elementFromPoint(event.targetTouches[0].clientX, event.targetTouches[0].clientY);
+      if (targetElement && targetElement.attributes.s_fex?.value) {
+        hovering_excluded = targetElement.attributes.s_fex?.value;
+      }
+    } else {
+      hovering_excluded = event.target.attributes.s_fex?.value;
+    }
     this.isCursorInactive = this.excludeWithS_fex?.some((e) => e === hovering_excluded) ? true : false;
     const followState = !this.isCursorInactive || !this.#areElementsExluded ? "active" : "inactive"; // o no hi ha excludes o esà fora dels excludes
     if (this.runningControler) {
@@ -132,14 +143,14 @@ class S_turn {
               let ySum = this.yOffset === 0 ? 0 : this.yOffset > 0 ? 180 : 0;
               let xSum = this.xOffset === 0 ? 0 : this.xOffset > 0 ? 270 : 90;
               let rad = Math.atan2(
-                ev.clientX - (this["CenterX_var" + i] - this["CenterX_var_Comp" + i]),
-                ev.clientY - (this["CenterY_var" + i] - this["CenterY_var_Comp" + i])
+                (s_isMobile() ? ev.targetTouches[0].clientX : ev.clientX) - (this["CenterX_var" + i] - this["CenterX_var_Comp" + i]),
+                (s_isMobile() ? ev.targetTouches[0].clientY : ev.clientY) - (this["CenterY_var" + i] - this["CenterY_var_Comp" + i])
               );
               let rotation =
                 (rad * (180 / Math.PI) * -1 + (this.yOffset === 0 ? xSum + this.xDeviation : ySum + this.yDeviation) + this.gDeviation) * this.gMulFactor;
-              if (this.degreeRange && (rotation > this.degreeRange[0] && rotation < this.degreeRange[1])) {
+              if (this.degreeRange && rotation > this.degreeRange[0] && rotation < this.degreeRange[1]) {
                 e.style.transform = "rotate(" + rotation + "deg)";
-              } else if(!this.degreeRange){
+              } else if (!this.degreeRange) {
                 e.style.transform = "rotate(" + rotation + "deg)";
               }
             }

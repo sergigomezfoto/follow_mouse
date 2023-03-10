@@ -21,6 +21,7 @@ body {
     overflow: hidden;
     margin: 0px;
     padding: 0px;
+    user-select: none;
 
 }
 
@@ -51,26 +52,58 @@ main,
     overflow: hidden;
     position: absolute;
     bottom: 0px;
+
 }
 
 header {
-    display: none;
+    opacity: 0;
+
+
 }
 
 .back {
     background-color: #000
 }
 
-.night {
+.sign {
     display: none;
+    background-image: url(../assets/img/never.png);
+    width: 157px;
+    height: 132px;
+    position: absolute;
+    bottom: 526px;
+    left: 459px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-touch-callout: none;
+    /* Safari */
+    -webkit-user-select: none;
+    /* Chrome */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+.night {
+    transition: opacity 2s, mask 1s, -webkit-mask 1s;
+    opacity: 0;
     height: var(--wrapperHeight);
     background-color: hsla(0, 0%, 0%, .95);
+    cursor: none;
+
+}
+
+.nigt-masked {
     mask: radial-gradient(circle at var(--p-x) var(--p-y),
             transparent 3%,
-            black 15%);
+            black 13%);
     -webkit-mask: radial-gradient(circle at var(--p-x) var(--p-y),
             transparent 3%,
-            black 15%);
+            black 13%);
+
 }
 
 .caratule {
@@ -96,9 +129,9 @@ header {
 }
 
 .caratule>.caratule-title {
-    display:none;
+    display: none;
     opacity: 0;
-    transition:opacity 1s;
+    transition: opacity 1s;
 }
 
 .caratule>span>span {
@@ -118,6 +151,7 @@ main>div {
     background-color: transparent;
     width: 100px;
     height: 50px;
+
 }
 
 /*cada un dels contenidors dels ulls*/
@@ -351,21 +385,21 @@ main>div>div div {
     
 } */
 /*BLANC*/
-main>div:nth-child(1)>div {
+/* main>div:nth-child(1)>div {
 
     border: #000 solid 1px;
 
     background: rgb(255, 217, 209);
     background: radial-gradient(circle, rgba(255, 217, 209, 1) 0%, rgba(223, 169, 160, 1) 57%, rgba(125, 23, 8, 1) 77%);
-}
+} */
 
 /*BOLES*/
-main>div:nth-child(1)>div>div {
+/* main>div:nth-child(1)>div>div {
     width: 10px;
     height: 10px;
     border: #000 solid 1px;
     background-color: rgb(143, 24, 24);
-}
+} */
 
 
 /* 
